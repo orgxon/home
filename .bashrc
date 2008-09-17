@@ -6,7 +6,7 @@ echo "loading .bashrc" >&2
 #
 
 if [ ! -d "$HOME/bin" ]; then
-	set- x
+	set -x
 	mkdir "$HOME/bin"
 	if [ "$PATH" == "${PATH//$HOME\/bin/}" ]; then
 		export PATH="$HOME/bin:$PATH"
@@ -52,14 +52,14 @@ export HISTFILESIZE=50
 export HISTCONTROL=ignoredups
 
 # interactive prompt
-if [ "$PS1" ]; then
+if [ -n "$PS1" ]; then
 	echo "TERM:$TERM"
 
 	# support resize, please
 	shopt -s checkwinsize
 
 	# get a good $PS1
-	[ -f $HOME/.bash/prompt.in ] && . $HOME/.bash/prompt.in
+	[ -s $HOME/.bash/prompt.in ] && . $HOME/.bash/prompt.in
 
 	# aliases
 	#
