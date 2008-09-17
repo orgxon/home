@@ -47,9 +47,13 @@ if [ -n "$PS1" ]; then
 	# standarise $TERM
 	case "$TERM" in
 		nxterm)
-			export TERM=xterm ;;
+			export TERM=xterm
+			;;
+		screen|xterm|rxvt)
+			;;
 		*)
-			echo "$TERM: Unknown TERM value." ;;
+			echo "$TERM: Unknown TERM value."
+			;;
 	esac
 
 	# get a nicer $PS1
