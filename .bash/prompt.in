@@ -10,7 +10,7 @@ function eliteprompt() {
 	local TITLEBAR=
 
 	case $TERM in
-		screen|putty|xterm*|rxvt)
+		screen|screen-256color|putty|xterm*|rxvt)
 			TITLEBAR='\[\033]0;\u@\h \w\007\]'
 			;;
 	esac
