@@ -1,4 +1,4 @@
-function eliteprompt() {
+eliteprompt() {
 	local NOCOLOR='\[\033[0m\]'
 	local BLUE='\[\033[1;34m\]'
 	local CYAN='\[\033[1;36m\]'
@@ -9,7 +9,7 @@ function eliteprompt() {
 	local TTY='$(TTY=`tty` && echo ${TTY:5})'
 	local TITLEBAR=
 
-	case $TERM in
+	case "$TERM" in
 		screen|screen-256color|putty|xterm*|rxvt)
 			TITLEBAR='\[\033]0;\u@\h \w\007\]'
 			;;
@@ -19,26 +19,15 @@ function eliteprompt() {
 	ps1="$BLUE[$CYAN\\t$BLUE]"
 
 	# user/host
-	ps1a=$NOCOLOR\\u$CYAN\@$NOCOLOR\\h
+	ps1a="$NOCOLOR\\u$CYAN@$NOCOLOR\\h"
 
 	# workdir and tty
-	ps1=$ps1' '$BLUE\[$ps1a$CYAN\($NOCOLOR$TTY$CYAN\)$NOCOLOR\\W$BLUE\]
+	ps1="$ps1 $BLUE[$ps1a$CYAN($NOCOLOR$TTY$CYAN)$NOCOLOR\\W$BLUE]"
 	
 	# and the prompt
-	ps1=$ps1$CYAN\\$
-	export PS1=$TITLEBAR$ps1$NOCOLOR' '
-}
-
-function dummyprompt() {
-	export PS1='[$( date +%H:%M )] [\u@\h:\w]\$ '
-}
-
-function ircprompt() {
-	export PS1='[$( date +%H:%M )] <$( if [ $UID -eq 0 ]; then echo "@"; fi )\u>'  
+	export PS1="$TITLEBAR$ps1$CYAN\\\$$NOCOLOR "
 }
 
 eliteprompt
 
 unset eliteprompt
-unset dummyprompt
-unset ircprompt
