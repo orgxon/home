@@ -44,6 +44,14 @@ if [ -n "$PS1" ]; then
 	# support resize, please
 	shopt -s checkwinsize
 
+	# standarise $TERM
+	case "$TERM" in
+		nxterm)
+			export TERM=xterm ;;
+		*)
+			echo "$TERM: Unknown TERM value." ;;
+	esac
+
 	# get a nicer $PS1
 	[ -s $HOME/.bash/prompt.in ] && . $HOME/.bash/prompt.in
 
