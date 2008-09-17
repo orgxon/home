@@ -3,18 +3,16 @@ function eliteprompt() {
 	local BLUE='\[\033[1;34m\]'
 	local CYAN='\[\033[1;36m\]'
 
-	local ps1=''
-	local ps1a=''
+	local ps1=
+	local ps1a=
 
-	local TTY='$( TTY=`tty` && echo ${TTY:5} )'
-	local TITLEBAR=''
+	local TTY='$(TTY=`tty` && echo ${TTY:5})'
+	local TITLEBAR=
 
 	case $TERM in
 		screen|putty|xterm*|rxvt)
-			TITLEBAR='\[\033]0;\u@\h ('$TTY') \w\007\]'
+			TITLEBAR='\[\033]0;\u@\h \w\007\]'
 			;;
-		*)
-			TITLEBAR='' ;;
 	esac
 
 	# timestamp
