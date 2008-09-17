@@ -1,17 +1,4 @@
 export LANG="en_GB.UTF-8"
-echo ".bashrc: TERM:$TERM ${PS1:+INTERACTIVE}" >&2
-
-# $HOME/bin
-#
-
-if [ ! -d "$HOME/bin" ]; then
-	set -x
-	mkdir "$HOME/bin"
-	if [ "$PATH" == "${PATH//$HOME\/bin/}" ]; then
-		export PATH="$HOME/bin:$PATH"
-	fi
-	set +x
-fi
 
 # GPG
 #
