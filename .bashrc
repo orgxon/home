@@ -70,4 +70,11 @@ if [ -n "$PS1" ]; then
 fi
 
 # local settings
-[ -s $HOME/.bash/local.in ] && . $HOME/.bash/local.in
+for x in .bash/local.in /etc/bash_completion; do
+	case "$x" in
+		/*) ;;
+		*)  x="$HOME/$x" ;;
+	esac
+
+	. "$x"
+done
