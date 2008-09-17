@@ -1,6 +1,5 @@
-#!/bin/bash -x
-
-echo "loading .bashrc" >&2
+export LANG="en_GB.UTF-8"
+echo ".bashrc: TERM:$TERM ${PS1:+INTERACTIVE}" >&2
 
 # $HOME/bin
 #
@@ -33,13 +32,15 @@ fi
 
 # ssh wrapper
 #
-if [ -x $HOME/bin/ssh ]; then
-	export CVS_SSH="$HOME/bin/ssh"
-	export SVN_SSH="$HOME/bin/ssh"
-	export GIT_SSH="$HOME/bin/ssh"
+if [ -s "$HOME/bin/ssh" ]; then
+	SSH="$HOME/bin/ssh"
 else
-	export CVS_RSH=ssh
+	SSH=ssh
 fi
+
+for x in GIT_SSH; do
+	eval export $x=$SSH
+done
 
 # other apps chosen by env
 #
@@ -53,12 +54,10 @@ export HISTCONTROL=ignoredups
 
 # interactive prompt
 if [ -n "$PS1" ]; then
-	echo "TERM:$TERM"
-
 	# support resize, please
 	shopt -s checkwinsize
 
-	# get a good $PS1
+	# get a nicer $PS1
 	[ -s $HOME/.bash/prompt.in ] && . $HOME/.bash/prompt.in
 
 	# aliases
@@ -71,4 +70,4 @@ if [ -n "$PS1" ]; then
 fi
 
 # local settings
-[ -f $HOME/.bash/local.in ] && . $HOME/.bash/local.in
+[ -s $HOME/.bash/local.in ] && . $HOME/.bash/local.in
