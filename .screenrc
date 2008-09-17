@@ -147,7 +147,8 @@
 # a "caption" is another line which can show information -
 # in addition to the hardstatus line.
 #
-  caption always "%{WB}%?%-Lw%?%{kw}%n*%f %t%?(%u)%?%{WB}%?%+Lw%?%{Wb}"
+# caption always "%{WB}%?%-Lw%?%{kw}%n*%f %t%?(%u)%?%{WB}%?%+Lw%?%{Wb}"
+  caption always "%{WB}%?%-Lw%?%{kw}%n*%f %t%?(%u)%?%{WB}%?%+Lw%?%{Wb} %= %{= RY} %H %{BW} %l %{bW} %c %M %d"
 #                 color--------color================color++++++++color
 #
 # ===============================
@@ -157,7 +158,7 @@
 # current HARDSTATUS [2005-04-12]
 # patterns: host, load, time, date.
 # the "%=" at the end extends the current color unto the end of the line.
-  hardstatus alwayslastline "%{= RY}%H %{BW} %l %{bW} %c %M %d%= www.cynapses.org"
+# hardstatus alwayslastline "%{= RY}%H %{BW} %l %{bW} %c %M %d%= www.cynapses.org"
 #
 #
 # =====================================================
