@@ -58,10 +58,9 @@ fi
 
 # local settings
 for x in .bash/local.in /etc/bash_completion; do
-	case "$x" in
-		/*) ;;
-		*)  x="$HOME/$x" ;;
-	esac
-
-	. "$x"
+	expr "$x" : / > /dev/null || x="$HOME/$x"
+	 
+	if [ -s "$x" ]; then
+		. "$x"
+	fi
 done
