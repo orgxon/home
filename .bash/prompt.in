@@ -16,8 +16,7 @@ function eliteprompt() {
 	esac
 
 	# timestamp
-	ps1a='$( date +%H:%M )'
-	ps1=$ps1$BLUE'['$CYAN$ps1a$BLUE']'
+	ps1="$BLUE[$CYAN\\t$BLUE]"
 
 	# user/host
 	ps1a=$NOCOLOR\\u$CYAN\@$NOCOLOR\\h
