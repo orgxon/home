@@ -1,0 +1,12 @@
+[user]
+	name = Alejandro Mery
+	email = amery@geeks.cl
+
+[color]
+	diff = auto
+
+[alias]
+	ci = commit
+	co = checkout
+	st = status
+
