@@ -49,7 +49,7 @@ if [ -n "$PS1" ]; then
 		nxterm)
 			export TERM=xterm
 			;;
-		screen-256color|screen|xterm|rxvt)
+		screen-256color|screen|xterm|rxvt|linux)
 			;;
 		*)
 			echo "$TERM: Unknown TERM value."
