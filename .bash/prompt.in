@@ -13,6 +13,8 @@ eliteprompt() {
 		screen|screen-256color|putty|xterm*|rxvt)
 			TITLEBAR='\[\033]0;\u@\h \w\007\]'
 			;;
+		linux)
+			;;
 	esac
 
 	# timestamp
