@@ -63,6 +63,7 @@ if [ -n "$PS1" ]; then
 	#
 	alias ls='ls --color=auto'
 	alias l='ls -avhlF'
+	alias gdb='gdb -quiet'
 
 	[ "$(type -t ll)" = alias ] && unalias ll
 	function ll() { ls -avhlF $* | less; }
