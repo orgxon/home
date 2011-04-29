@@ -68,6 +68,9 @@ if [ -n "$PS1" ]; then
 	function ll() { ls -avhlF $* | less; }
 fi
 
+# vi mode
+set -o vi
+
 # local settings
 for x in .bash/local.in /etc/bash_completion; do
 	expr "$x" : / > /dev/null || x="$HOME/$x"
