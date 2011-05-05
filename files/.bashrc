@@ -29,6 +29,11 @@ for x in GIT_SSH; do
 	eval export $x=$SSH
 done
 
+# debian/ubuntu development
+#
+export DEBFULLNAME="Alejandro Mery"
+export DEBEMAIL="amery@geeks.cl"
+
 # other apps chosen by env
 #
 export BROWSER=links
