@@ -2,7 +2,7 @@ export LANG="en_GB.UTF-8"
 
 # GPG
 #
-if [ ! -x "$(type -p gpg-agent)" ]; then
+if ! type -p gpg-agent > /dev/null; then
 	:
 elif test -f "$HOME/.gpg-agent-info" &&
 		kill -0 $(cut -d: -f2 "$HOME/.gpg-agent-info" 2> /dev/null ) 2> /dev/null; then
