@@ -1,0 +1,3 @@
+#|/bin/sh
+
+exec curl -si -F 'content=<-' http://dpaste.com/api/v1/ | grep ^Location: | cut -d' ' -f2-
