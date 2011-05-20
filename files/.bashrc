@@ -7,20 +7,23 @@ export LANG="en_GB.UTF-8"
 
 # GPG
 #
+x="$HOME/.gpg-agent-info"
 if ! type -p gpg-agent > /dev/null; then
-	:
-elif test -f "$HOME/.gpg-agent-info" &&
-		kill -0 $(cut -d: -f2 "$HOME/.gpg-agent-info" 2> /dev/null ) 2> /dev/null; then
+	rm -f "$x"
+elif test -s "$x" &&
+	kill -0 $(cut -d: -f2 "$x" 2> /dev/null ) 2> /dev/null; then
 
-	. "$HOME/.gpg-agent-info"
-
-	export GPG_TTY=$(tty)
+	. "$x"
 else
 	eval $(gpg-agent --daemon --log-file "$HOME/.gpg-agent.log" \
-		--write-env-file "$HOME/.gpg-agent-info" 2> /dev/null)
+		--write-env-file "$x" 2> /dev/null)
 
-	export GPG_TTY=$(tty)
 fi
+if [ -s "$x" ]; then
+	export GPG_TTY=$(tty)
+	eval export $(cut -d= -f1 "$x")
+fi
+unset x
 
 # ssh wrapper
 #
