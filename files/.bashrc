@@ -1,3 +1,5 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+
 export LANG="en_GB.UTF-8"
 
 # GPG
@@ -39,10 +41,16 @@ export DEBEMAIL="amery@geeks.cl"
 export BROWSER=links
 export EDITOR=vim
 
-# tweak your bash
-#
-export HISTFILESIZE=50
-export HISTCONTROL=ignoredups
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
 
 # interactive prompt
 if [ -n "$PS1" ]; then
