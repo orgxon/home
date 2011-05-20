@@ -2,6 +2,9 @@
 
 export LANG="en_GB.UTF-8"
 
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
 # GPG
 #
 if ! type -p gpg-agent > /dev/null; then
@@ -52,35 +55,32 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
 
-# interactive prompt
-if [ -n "$PS1" ]; then
-	# support resize, please
-	shopt -s checkwinsize
+# support resize, please
+shopt -s checkwinsize
 
-	# standarise $TERM
-	case "$TERM" in
-		nxterm)
-			export TERM=xterm
-			;;
-		screen-256color|screen|xterm|rxvt|linux)
-			;;
-		*)
-			echo "$TERM: Unknown TERM value."
-			;;
-	esac
+# standarise $TERM
+case "$TERM" in
+	nxterm)
+		export TERM=xterm
+		;;
+	screen-256color|screen|xterm|rxvt|linux)
+		;;
+	*)
+		echo "$TERM: Unknown TERM value."
+		;;
+esac
 
-	# get a nicer $PS1
-	[ -s $HOME/.bash/prompt.in ] && . $HOME/.bash/prompt.in
+# get a nicer $PS1
+[ -s $HOME/.bash/prompt.in ] && . $HOME/.bash/prompt.in
 
-	# aliases
-	#
-	alias ls='ls --color=auto'
-	alias l='ls -avhlF'
-	alias gdb='gdb -quiet'
+# aliases
+#
+alias ls='ls --color=auto'
+alias l='ls -avhlF'
+alias gdb='gdb -quiet'
 
-	[ "$(type -t ll)" = alias ] && unalias ll
-	function ll() { ls -avhlF $* | less; }
-fi
+[ "$(type -t ll)" = alias ] && unalias ll
+function ll() { ls -avhlF $* | less; }
 
 # vi mode
 set -o vi
