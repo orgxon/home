@@ -12,3 +12,4 @@
 	co = checkout
 	st = status
 	cp = cherry-pick
+	ls = ls-files
