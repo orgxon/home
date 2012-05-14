@@ -47,6 +47,9 @@ export DEBEMAIL="amery@geeks.cl"
 export BROWSER=links
 export EDITOR=vim
 
+# better utf-8 support
+export LESSCHARSET=utf-8
+
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoredups:ignorespace
@@ -81,6 +84,7 @@ esac
 alias ls='ls --color=auto'
 alias l='ls -avhlF'
 alias gdb='gdb -quiet'
+alias vi='vi "+set encoding=utf-8"'
 
 [ "$(type -t ll)" = alias ] && unalias ll
 function ll() { ls -avhlF $* | less; }
