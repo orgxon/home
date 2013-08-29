@@ -33,6 +33,13 @@ if [ -s "$ak" ]; then
 			fi
 		fi
 	done < $ak > $ak~
+else
+	touch $ak
+	for x in amery@geeks.cl \
+		amery@builder.geeks.cl \
+		amery@shell.easy-cloud.net; do
+		cat .ssh/$x.pub
+	done > $ak~
 fi
 if ! cmp $ak $ak~; then
 	diff -u $ak $ak~
