@@ -42,7 +42,7 @@ else
 	done > $ak~
 fi
 if ! cmp $ak $ak~; then
-	diff -u $ak $ak~
+	diff -u $ak $ak~ || true
 	mv $ak~ $ak
 fi
 cd ..
