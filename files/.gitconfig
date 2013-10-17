@@ -13,3 +13,5 @@
 	st = status
 	cp = cherry-pick
 	ls = ls-files
+[push]
+	default = simple
