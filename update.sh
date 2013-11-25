@@ -2,7 +2,7 @@
 
 cd "$(dirname "$0")"
 
-if [ "$(git ls-files -mdo)" ]; then
+if [ "$(git ls-files -md)" ]; then
 	updated=true
 	git stash -q
 else
