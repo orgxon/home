@@ -13,11 +13,9 @@ if [ $# -eq 0 ]; then
 fi
 
 if [ -t 1 ]; then
-	if env | grep -q ^PAGER=; then
-		if [ -z "$PAGER" ]; then
-			PAGER=cat
-		fi
-	else
+	if env | grep -q '^PAGER=$'; then
+		PAGER=cat
+	elif [ -z "$PAGER" ]; then
 		PAGER="less -R"
 	fi
 else
