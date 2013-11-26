@@ -6,6 +6,8 @@ tmp_f=
 if [ $# -eq 0 ]; then
 	tmp_f="${TMPDIR:-/tmp}/colorize.$$"
 
+	trap "rm -f '$tmp_f'" INT TERM
+
 	cat > "$tmp_f"
 	set -- "$tmp_f"
 fi
