@@ -32,6 +32,9 @@ for f; do
 		text/x-shellscript)
 			l=sh
 			;;
+		text/plain)
+			l=text
+			;;
 	esac
 
 	pygmentize ${l:+-l $l} "$f"
