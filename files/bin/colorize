@@ -1,0 +1,30 @@
+#!/bin/sh
+
+exec 2>&1
+
+tmp_f=
+if [ $# -eq 0 ]; then
+	tmp_f="${TMPDIR:-/tmp}/colorize.$$"
+
+	cat > "$tmp_f"
+	set -- "$tmp_f"
+fi
+
+for f; do
+	l=
+	eval t=$(file -i - < "$f" | cut -d' ' -f2-)
+	case "$t" in
+		application/xml)
+			l=xml
+			;;
+		text/x-shellscript)
+			l=sh
+			;;
+	esac
+
+	pygmentize ${l:+-l $l} "$f"
+done
+
+if [ -n "$tmp_f" ]; then
+	rm -f "$tmp_f"
+fi
