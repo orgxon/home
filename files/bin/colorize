@@ -10,6 +10,18 @@ if [ $# -eq 0 ]; then
 	set -- "$tmp_f"
 fi
 
+if [ -t 1 ]; then
+	if env | grep -q ^PAGER=; then
+		if [ -z "$PAGER" ]; then
+			PAGER=cat
+		fi
+	else
+		PAGER="less -R"
+	fi
+else
+	PAGER=cat
+fi
+
 for f; do
 	l=
 	eval t=$(file -i - < "$f" | cut -d' ' -f2-)
@@ -23,7 +35,7 @@ for f; do
 	esac
 
 	pygmentize ${l:+-l $l} "$f"
-done
+done | $PAGER
 
 if [ -n "$tmp_f" ]; then
 	rm -f "$tmp_f"
