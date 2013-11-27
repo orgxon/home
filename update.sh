@@ -2,17 +2,31 @@
 
 cd "$(dirname "$0")"
 
+branch="$(git branch | sed -n 's/^* \(.*\)$/\1/p;')"
+[ -n "$branch" ] || exit
+
+remote=$(git config --get "branch.$branch.remote")
+rbranch=$(git config --get "branch.$branch.merge" | sed -e 's|^refs/heads/||')
+rurl=$(git config --get "remote.$remote.url")
+[ -n "$remote" -a -n "$rbranch" -a -n "$rurl" ] || exit
+
+echo "# $PWD ($branch <- $rurl:$rbranch)"
+
+hash0=$(git rev-parse "$remote/$rbranch")
+git fetch "$remote"
+hash1=$(git rev-parse "$remote/$rbranch")
+[ "$hash0" != "$hash1" ] || exit
+
 if [ "$(git ls-files -md)" ]; then
-	updated=true
+	stashed=true
 	git stash -q
 else
-	updated=false
+	stashed=false
 fi
 
-echo "== $PWD =="
-git pull -q --rebase
+git rebase "$remote/$rbranch"
 
-if $updated; then
+if $stashed; then
 	git stash pop -q
 fi
 
