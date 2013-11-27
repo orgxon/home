@@ -15,7 +15,7 @@ echo "# $PWD ($branch <- $rurl:$rbranch)"
 hash0=$(git rev-parse "$remote/$rbranch")
 git fetch "$remote"
 hash1=$(git rev-parse "$remote/$rbranch")
-[ "$hash0" != "$hash1" ] || exit
+[ -n "$hash0" -a -n "$hash1" -a "$hash0" != "$hash1" ] || exit
 
 if [ "$(git ls-files -md)" ]; then
 	stashed=true
