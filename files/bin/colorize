@@ -24,17 +24,23 @@ fi
 
 for f; do
 	l=
-	eval t=$(file -i - < "$f" | cut -d' ' -f2-)
-	case "$t" in
-		application/xml)
-			l=xml
+	eval mime=$(file -i - < "$f" | cut -d' ' -f2-)
+	case "$mime" in
+	application/xml) l=xml ;;
+	text/x-shellscript) l=sh ;;
+	text/plain)
+		case "$(file - < "$f" | cut -d' ' -f2-)" in
+		a\ */python\ script)
+			l=python
 			;;
-		text/x-shellscript)
-			l=sh
+		*)
+			case "$f" in
+			*.sh) l=sh ;;
+			*.c|*.h|*.cc|*.hh) l=c ;;
+			*) l=text ;;
+			esac
 			;;
-		text/plain)
-			l=text
-			;;
+		esac
 	esac
 
 	pygmentize ${l:+-l $l} "$f"
