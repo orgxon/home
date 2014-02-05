@@ -1,0 +1,77 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+create_user_dir() {
+	local u="$1" d=
+	shift
+
+	for d; do
+		if [ ! -d "$d" ]; then
+			mkdir "$d"
+			chown "$u:$u" "$d"
+		fi
+	done
+}
+
+create() {
+	local u="$1" d0="$2" d1="$3" dp=
+
+	create_user_dir "$u" "$d1"
+
+	if [ "$(readlink "$d0")" != "$d1" ]; then
+
+		create_user_dir "$u" "$(dirname "$d0")"
+
+		rm -rf "$d0"
+		ln -snf "$d1" "$d0"
+	fi
+}
+
+mount2() {
+	local d="$1"
+	shift
+
+	if ! grep -q " $d " /proc/mounts; then
+		mount "$@" "$d"
+	fi
+}
+
+T=/var/cache/tmpfs
+mkdir -p "$T"
+mount2 "$T" -t tmpfs -o nosuid,nodev none
+#mount2 /var/cache/apt -t tmpfs -o nosuid,nodev none
+
+for user in ame amery xubuntu; do
+	[ -d "/home/$user" ] || continue
+
+	create_user_dir "$user" "/var/cache/tmpfs/$user"
+
+	for d in \
+		.cache \
+		.cache/mozilla \
+		; do
+
+		create_user_dir "$user" "/home/$user/$d" "/var/cache/tmpfs/$user/$d"
+	done
+
+	for d in \
+		.cache/thunderbird \
+		.cache/chromium \
+		.cache/google-chrome \
+		.cache/mozilla/firefox \
+		; do
+		create "$user" "/home/$user/$d" "/var/cache/tmpfs/$user/$d"
+	done
+done
+
+exit 0
