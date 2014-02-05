@@ -24,4 +24,4 @@ syn match WrongWhitespace /\t \{8,}/
 
 "match WrongWhitespace / \+\ze\t/ " what is this?
 
-highlight WrongWhitespace ctermbg=red guibg=red
+highlight WrongWhitespace ctermbg=gray guibg=gray
