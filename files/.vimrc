@@ -2,7 +2,7 @@ set nocompatible
 
 colorscheme koehler
 "set guifont=DejaVu\ Sans\ Mono\ 7
-set guifont=Terminus\ 7
+set guifont=Terminus\ 8
 
 filetype indent on
 syntax on
