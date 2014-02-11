@@ -1,0 +1,38 @@
+#!/bin/sh
+
+arg0=$(basename "$0")
+
+fatal() {
+	echo "F: $arg0: $@"
+	exit 1
+}
+
+if [ $# -gt 0 -a -d "$1" ]; then
+	DIR="$1"
+	shift
+else
+	DIR="."
+fi
+
+
+cd "$DIR" || fatal "$DIR: invalid chroot dir"
+DIR=$(pwd -P)
+
+error=false
+for x in dev dev/pts sys tmp; do
+	if ! grep -q " $DIR/$x " /proc/mounts; then
+		mount --bind /$x $DIR/$x || error=true
+
+		if $error; then
+			[ "$x" != dev ] || fatal "can't do anything"
+			break
+		fi
+	fi
+done
+
+$error || chroot "$DIR" "$@"
+
+while grep -q " $DIR/" /proc/mounts; do
+	sleep 0.2
+	grep " $DIR/" /proc/mounts | cut -d' ' -f2 | tac | xargs -r --verbose -- umount
+done
