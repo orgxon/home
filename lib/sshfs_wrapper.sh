@@ -1,23 +1,51 @@
 #!/bin/sh
 
 set -e
+
+die() {
+	echo "$*" >&2
+	exit 1
+}
+
 N="$(basename "$0")"
-N="${N#sshfs_}"
 case "$N" in
-inmep)
-	R=amery@inmep.geeks.cl:projects/
+sshfs_*)
+	M=sshfs
+	N="${N#sshfs_}"
+	case "$N" in
+	inmep)
+		R=amery@inmep.geeks.cl:projects/
+		;;
+	builder)
+		R=amery@geeks.cl:projects/
+		;;
+	*)
+		die "$0: invalid name"
+		;;
+	esac
 	;;
-builder)
-	R=amery@geeks.cl:projects/
+flickr)
+	M="${N}fs"
 	;;
 *)
-	echo "$0: invalid name" >&2
-	exit 1
+	die "$0: invalid name"
 	;;
 esac
+
 D="/media/$USER/$N"
 if [ ! -d "$D/" ]; then
 	sudo mkdir -p "$D"
 	sudo chown $USER:$USER "$D"
 fi
-exec sshfs "$R" "$D"
+
+case "$M" in
+sshfs)
+	exec "$M" "$R" "$D"
+	;;
+flickrfs)
+	exec "$M" "$D"
+	;;
+*)
+	die "$M: invalid mode"
+	;;
+esac
