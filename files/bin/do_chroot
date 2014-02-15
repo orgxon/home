@@ -19,7 +19,7 @@ cd "$DIR" || fatal "$DIR: invalid chroot dir"
 DIR=$(pwd -P)
 
 error=false
-for x in dev dev/pts sys tmp; do
+for x in dev dev/pts proc sys tmp; do
 	if ! grep -q " $DIR/$x " /proc/mounts; then
 		mount --bind /$x $DIR/$x || error=true
 
