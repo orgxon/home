@@ -1,0 +1,9 @@
+#!/bin/sh
+
+CERT="$(git config http.sslcert 2> /dev/null)"
+KEY="$(git config http.sslkey 2> /dev/null)"
+
+exec /usr/bin/curl \
+	${KEY:+--key "$KEY"} \
+	${CERT:+--cert "$CERT"} \
+	"$@"
