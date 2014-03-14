@@ -40,7 +40,8 @@ fi
 
 case "$M" in
 sshfs)
-	exec "$M" "$R" "$D"
+	exec "$M" -o allow_root -o reconnect -C \
+		"$R" "$D"
 	;;
 flickrfs)
 	exec "$M" "$D"
