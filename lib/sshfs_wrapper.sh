@@ -20,7 +20,7 @@ sshfs_*)
 		R=amery@geeks.cl:projects/
 		;;
 	*)
-		die "$0: invalid name"
+		R=$N:
 		;;
 	esac
 	;;
