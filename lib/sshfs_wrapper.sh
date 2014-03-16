@@ -40,7 +40,14 @@ fi
 
 case "$M" in
 sshfs)
-	exec "$M" -o allow_root -o reconnect -C "$@" \
+	sshfs_opt="-o reconnect -C"
+	if grep -q '^user_allow_other$' /etc/fuse.conf 2> /dev/null; then
+		sshfs_opt="$sshfs_opt -o allow_root"
+	else
+		echo "please enable user_allow_other in /etc/fuse.conf and make it readable" >&2
+	fi
+
+	exec "$M" $sshfs_opt "$@" \
 		"$R" "$D"
 	;;
 flickrfs)
