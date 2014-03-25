@@ -1,0 +1,52 @@
+#!/bin/sh
+
+update_svn() {
+	DIR=$(cd "$1" && pwd -P)
+	[ -d "$DIR" ] || return 0
+
+	echo "== $DIR"
+#	svn upgrade "$DIR"
+	svn up "$DIR"
+}
+
+update_git() {
+	local staged=false
+
+	cd "$1" || return 1
+	echo "== $PWD"
+
+	if [ -n "$(git ls -md)" ]; then
+		if git stash; then
+			staged=true
+		fi
+	fi
+	git pull --rebase
+	! $staged || git stash pop
+
+	cd - > /dev/null
+}
+
+update_repo() {
+	cd "$1" || return 1
+	echo "== $PWD"
+
+	repo sync
+
+	cd - > /dev/null
+}
+
+[ $# -gt 0 ] || set -- .
+
+for d; do
+	if [ -e "$d/.git" ]; then
+		mode=git
+	elif [ -d "$d/.svn" ]; then
+		mode=svn
+	elif [ -d "$d/.repo" ]; then
+		mode=repo
+	else
+		continue
+	fi
+
+	update_${mode} "$d"
+done
