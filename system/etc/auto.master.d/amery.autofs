@@ -1,0 +1,1 @@
+/media/amery/autofs	/home/amery/autofs.conf	uid=1000,gid=1000,--timeout=30,--ghost
