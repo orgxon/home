@@ -1,1 +1,2 @@
 /media/amery/remote	/home/amery/remote.autofs	uid=1000,gid=1000,--timeout=30,--ghost
+/media/amery/local	/home/amery/local.autofs	--timeout=30,--ghost

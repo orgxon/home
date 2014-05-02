@@ -1,0 +1,1 @@
+liveusb -fstype=ext4,rw,noatime	UUID=4f641163-4468-4073-b572-21fd7ba2ee04
