@@ -1,0 +1,66 @@
+#!/bin/sh
+
+NAME="Alejandro Mery"
+EMAIL="amery@geeks.cl"
+BASE="git@github.com:amery/"
+
+err() {
+	if [ $# -eq 0 ]; then
+		cat
+	else
+		echo "$*"
+	fi >&2
+}
+
+usage() {
+	[ $# -eq 0 ] || echo "$*" >&2
+
+	err <<-EOT
+	Usage: $0 <remote> [<dir>]
+	EOT
+	exit 1
+}
+
+[ $# -eq 1 -o $# -eq 2 ] || usage
+
+if expr "$1" : '.*:' > /dev/null; then
+	REMOTE="$1"
+else
+	REMOTE="$BASE$1"
+fi
+
+DIR="${2:-${REMOTE##*/}}"
+if [ ! -d "$DIR/.git" ]; then
+	mkdir -p "$DIR" && cd "$DIR" && git init || exit $?
+else
+	cd "$DIR" || exit $?
+	err "WARNING: $PWD already under git control"
+fi
+
+for x in \
+	"user.name:$NAME" \
+	"user.email:$EMAIL" \
+	"remote.origin.url:$REMOTE" \
+	; do
+
+	k="${x%%:*}"
+	v="${x#*:}"
+	x="$(git config "$k")"
+	if [ -z "$v" ]; then
+		continue
+	elif [ -z "$x" -a "$k" = "remote.origin.url" ]; then
+		git remote add origin "$v"
+	elif [ "$v" != "$x" ]; then
+		[ -z "$x" ] || err "WARNING:$k: $x -> $v"
+		git config "$k" "$v"
+	fi
+	x=$(git config "$k")
+
+	if [ "$v" = "$x" ]; then
+		echo "$k=$v"
+	else
+		err "ERROR:$k: set to '$x' instead of '$v'"
+	fi
+done
+
+echo "Enjoy! \`cd $DIR\`"
