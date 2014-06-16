@@ -15,3 +15,5 @@
 	ls = ls-files
 [push]
 	default = tracking
+[diff]
+	algorithm = patience
