@@ -28,6 +28,7 @@ for f; do
 	case "$mime" in
 	application/xml) l=xml ;;
 	text/x-shellscript) l=sh ;;
+	text/x-diff) l=diff ;;
 	text/plain)
 		case "$(file - < "$f" | cut -d' ' -f2-)" in
 		a\ */python\ script)
