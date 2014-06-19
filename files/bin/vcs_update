@@ -15,6 +15,9 @@ update_git() {
 	cd "$1" || return 1
 	echo "== $PWD"
 
+	git fetch --all --prune
+	git remote | xargs -r git fetch --multiple --prune --tags
+
 	if [ -n "$(git ls -md)" ]; then
 		if git stash; then
 			staged=true
