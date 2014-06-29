@@ -30,7 +30,7 @@ for x in dev dev/pts proc sys tmp; do
 	fi
 done
 
-$error || chroot "$DIR" "$@"
+$error || HOME=/root chroot "$DIR" "$@"
 
 while grep -q " $DIR/" /proc/mounts; do
 	sleep 0.2
