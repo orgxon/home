@@ -1,3 +1,13 @@
 #!/bin/sh
 
-exec sudo sh -c 'apt-get update && apt-get dist-upgrade && apt-get autoremove --purge'
+apt_opt=
+if [ $# -eq 0 ]; then
+	: # interactive
+elif [ "${1:-}" = "-y" ]; then
+	apt_opt="-y"
+	shift
+fi
+
+aptget="apt-get${apt_opt:+ $apt_opt}"
+cmd="$aptget update && $aptget dist-upgrade && $aptget autoremove --purge"
+exec sudo sh -c "$cmd"
