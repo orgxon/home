@@ -10,7 +10,7 @@ endif
 " case sensitive
 syn case match
 
-syn match scrProperty "\${[a-z\.]\+}"
+syn match scrProperty "\${[a-z\._]\+}"
 
 if u_boot_highlight_cpp != 0
 	syn match cppHash "^[ \t]*#.*$"
