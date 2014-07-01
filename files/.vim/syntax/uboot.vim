@@ -11,6 +11,7 @@ endif
 syn case match
 
 syn match scrProperty "\${[a-z\._]\+}"
+syn match scrHexNumber "0x[0-9a-fA-F]\+"
 
 if u_boot_highlight_cpp != 0
 	syn match cppHash "^[ \t]*#.*$"
@@ -26,5 +27,6 @@ else
 endif
 
 hi link scrProperty Identifier
+hi link scrHexNumber Constant
 
 let b:current_syntax = "uboot"
