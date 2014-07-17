@@ -2,5 +2,5 @@
 
 set -- -t -o ServerAliveInterval=15 "$@"
 
-cmd='exec screen -dRU'
+cmd='exec tmux attach || exec tmux new || exec screen -dRU'
 exec sshloop "$@" "$cmd"
