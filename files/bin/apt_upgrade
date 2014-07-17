@@ -9,5 +9,5 @@ elif [ "${1:-}" = "-y" ]; then
 fi
 
 aptget="apt-get${apt_opt:+ $apt_opt}"
-cmd="$aptget update && $aptget dist-upgrade && $aptget autoremove --purge"
+cmd="$aptget update && $aptget autoremove --purge && $aptget upgrade && $aptget dist-upgrade"
 exec sudo sh -c "$cmd"
