@@ -29,7 +29,7 @@ update_git() {
 	remote=`git config "branch.${branch}.remote"`
 	merge=`git config "branch.${branch}.merge"`
 
-	git merge -q --stat --ff "$remote/${merge##refs/heads/}"
+	git rebase -q "$remote/${merge##refs/heads/}"
 	if $staged; then
 		git stash pop -q
 		git status -s
