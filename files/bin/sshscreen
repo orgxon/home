@@ -1,5 +1,6 @@
 #!/bin/sh
 
-ServerAliveInterval=15
-exec sshloop -t -o "ServerAliveInterval=$ServerAliveInterval" \
-	"$@" exec screen -dRU
+set -- -t -o ServerAliveInterval=15 "$@"
+
+cmd='exec screen -dRU'
+exec sshloop "$@" "$cmd"
