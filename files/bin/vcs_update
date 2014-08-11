@@ -19,7 +19,7 @@ update_git() {
 	git fetch -q --all --prune
 	git remote | xargs -r git fetch -q --multiple --prune --tags
 
-	if [ -n "$(git ls -md)" ]; then
+	if [ -n "$(git ls-files -md)" ]; then
 		if git stash -q; then
 			staged=true
 		fi
