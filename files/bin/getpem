@@ -1,0 +1,3 @@
+#!/bin/sh
+
+openssl s_client -connect "$@" < /dev/null | openssl x509 -pubkey -noout
