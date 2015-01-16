@@ -29,6 +29,7 @@ for f; do
 	application/xml) l=xml ;;
 	text/x-shellscript) l=sh ;;
 	text/x-diff) l=diff ;;
+	text/x-c) l=c ;;
 	text/plain)
 		case "$(file - < "$f" | cut -d' ' -f2-)" in
 		a\ */python\ script)
