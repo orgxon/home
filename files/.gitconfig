@@ -14,6 +14,8 @@
 	st = status
 	cp = cherry-pick
 	ls = ls-files
+	tree = log --graph --decorate --pretty=oneline --abbrev-commit
+
 [push]
 	default = tracking
 [diff]
