@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ -n "$DISPLAY" ]; then
+	setxkbmap -layout gb
+else
+	sudo loadkeys -u -q gb
+fi
