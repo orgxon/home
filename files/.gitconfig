@@ -15,6 +15,7 @@
 	cp = cherry-pick
 	ls = ls-files
 	tree = log --graph --decorate --pretty=oneline --abbrev-commit
+	amend = commit --amend --no-edit
 	fixup = commit --fixup
 	autosquash = rebase -i --autosquash
 
