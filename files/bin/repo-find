@@ -1,0 +1,44 @@
+#!/bin/sh
+
+COLOUR=auto
+case "${1:-}" in
+--color|--colour) COLOUR=true; shift ;;
+--color=no|--colour=no) COLOUR=false; shift ;;
+esac
+
+if [ "$COLOUR" = auto -a -t 1 ]; then
+	COLOUR=true
+fi
+
+if $COLOUR; then
+	COLOUR="$(printf '\x1b[32m')"
+	NORMAL="$(printf '\x1b[39;49m')"
+else
+	COLOUR=
+	NORMAL=
+fi
+
+while [ "$PWD" != / -a ! -s "$PWD/.repo/manifest.xml" ]; do
+	cd ..
+done
+
+if [ ! -s "$PWD/.repo/manifest.xml" ]; then
+	echo "not in a repo tree" >&2
+	exit 1
+fi
+
+GIT="`which git`"
+git() {
+	local dir="$1"
+	shift
+	"$GIT" --git-dir "$dir/.git" --work-tree "$dir" "$@"
+}
+
+echo -n "$NORMAL"
+repo list -p | while read p; do
+	if [ $# -gt 0 ]; then
+		git "$p" ls-files | grep "$@"
+	else
+		git "$p" ls-files
+	fi | sed -e "s|^|$COLOUR$p$NORMAL/|"
+done
