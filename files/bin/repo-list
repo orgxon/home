@@ -1,0 +1,23 @@
+#!/bin/sh
+
+DEPTH=${1:-4}
+
+set -eu
+ls_r() {
+	local count="$1" base="$2"
+	local x= d=
+	shift 2
+
+	let count-- || return
+
+	[ ! -e "$base/.git" ] || echo "${base#./}"
+
+	for d in "$base"/*; do
+		if [ -d "$d" ]; then
+			ls_r $count "$d" &
+		fi
+	done
+	wait
+}
+
+ls_r "$DEPTH" .
