@@ -3,6 +3,8 @@
 	email = amery@geeks.cl
 
 [color]
+	ui = auto
+	interactive = auto
 	diff = auto
 	status = auto
 	branch = auto
@@ -24,3 +26,6 @@
 	default = tracking
 [diff]
 	algorithm = patience
+
+[diff "bin"]
+	textconv = hexdump -v -C
