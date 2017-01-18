@@ -24,7 +24,7 @@ fi
 
 for f; do
 	l=
-	eval mime=$(file -i - < "$f" | cut -d' ' -f2-)
+	eval mime=$(file -i -L - < "$f" | cut -d' ' -f2-)
 	case "$mime" in
 	application/xml) l=xml ;;
 	text/x-shellscript) l=sh ;;
@@ -38,6 +38,7 @@ for f; do
 		*)
 			case "$f" in
 			*.sh) l=sh ;;
+			*.ini) l=ini ;;
 			*.c|*.h|*.cc|*.hh) l=c ;;
 			*) l=text ;;
 			esac
