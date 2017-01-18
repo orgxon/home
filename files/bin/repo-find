@@ -8,6 +8,8 @@ esac
 
 if [ "$COLOUR" = auto -a -t 1 ]; then
 	COLOUR=true
+elif [ "$COLOUR" != true ]; then
+	COLOUR=false
 fi
 
 if $COLOUR; then
@@ -34,7 +36,6 @@ git() {
 	"$GIT" --git-dir "$dir/.git" --work-tree "$dir" "$@"
 }
 
-echo -n "$NORMAL"
 repo list -p | while read p; do
 	if [ $# -gt 0 ]; then
 		git "$p" ls-files | grep "$@"
