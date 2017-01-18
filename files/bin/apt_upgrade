@@ -20,7 +20,7 @@ obsolete_kernels() {
 			COLUMNS=500 dpkg -l "linux*$v*" | sed -n -e 's|^..  \(linux[^ \]\+\)[ \t].*|\1|p'
 		done | while read p; do
 			case "$p" in
-			*$current*|*$latest*)
+			*-$current|*-$current-*|*-$latest|*-$latest-*)
 				echo "$p: SKIP" >&2
 				;;
 			*)
@@ -32,7 +32,8 @@ obsolete_kernels() {
 	fi
 }
 
-remove=$(obsolete_kernels "$(uname -r)" \
+remove=$(obsolete_kernels \
+		"$(uname -r | sed -e 's|-generic$||')" \
 		$(ls -1 /boot/vmlinuz-* | \
 			sed -e 's|^/boot/vmlinuz-||' -e 's|\.efi\.signed$||' -e 's|-generic$||' | \
 			sort -urV))
@@ -40,11 +41,10 @@ remove=$(obsolete_kernels "$(uname -r)" \
 aptget="apt-get${apt_opt:+ $apt_opt}"
 
 cmd="$aptget update"
-cmd="$cmd && $aptget autoremove --purge"
-
 if [ -n "$remove" ]; then
-	cmd="$cmd && $aptget remove --purge $remove"
+	cmd="$cmd && dpkg -P $remove"
 fi
-
+cmd="$cmd && $aptget autoremove --purge"
 cmd="$cmd && $aptget upgrade && $aptget dist-upgrade"
+set -x
 exec sudo sh -c "$cmd"
