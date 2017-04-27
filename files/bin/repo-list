@@ -8,7 +8,8 @@ ls_r() {
 	local x= d=
 	shift 2
 
-	let count-- || return
+	count=$(($count - 1))
+	[ $count -gt 0 ] || return
 
 	[ ! -e "$base/.git" ] || echo "${base#./}"
 
