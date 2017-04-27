@@ -21,6 +21,7 @@
 	fixup = commit --fixup
 	squash = commit --squash
 	autosquash = rebase -i --autosquash
+	please = push --force-with-lease
 
 [push]
 	default = tracking
