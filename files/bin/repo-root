@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -ue
+d="$PWD"
+while true; do
+	if [ "${d:-/}" = / ]; then
+		echo "$PWD"
+		exit 1
+	elif [ -s "$d/.repo/manifest.xml" ]; then
+		break
+	else
+		d="$(cd "$d/.." && pwd)"
+	fi
+done
+echo "$d"
