@@ -1,8 +1,11 @@
 #!/bin/sh
 
+set -eu
+
 COLOUR=auto
 case "${1:-}" in
---color|--colour) COLOUR=true; shift ;;
+--color=auto|--colour=auto) shift ;;
+--color=yes|--colour=yes|--color|--colour) COLOUR=true; shift ;;
 --color=no|--colour=no) COLOUR=false; shift ;;
 esac
 
@@ -36,10 +39,21 @@ git() {
 	"$GIT" --git-dir "$dir/.git" --work-tree "$dir" "$@"
 }
 
-repo list -p | while read p; do
+case "${0##*/}" in
+repo-grep)
 	if [ $# -gt 0 ]; then
-		git "$p" ls-files | grep "$@"
-	else
-		git "$p" ls-files
-	fi | sed -e "s|^|$COLOUR$p$NORMAL/|"
-done
+		repo list -p | while read p; do
+			git "$p" grep ${COLOUR:+--color=always} "$@" | sed -e "s|^|$COLOUR$p$NORMAL/|"
+		done
+	fi
+	;;
+repo-find|*)
+	repo list -p | while read p; do
+		if [ $# -gt 0 ]; then
+			git "$p" ls-files | grep "$@"
+		else
+			git "$p" ls-files
+		fi | sed -e "s|^|$COLOUR$p$NORMAL/|"
+	done
+	;;
+esac
