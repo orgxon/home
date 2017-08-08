@@ -16,6 +16,7 @@
 	st = status
 	cp = cherry-pick
 	ls = ls-files
+	wsfix = !git diff HEAD >P.diff && git reset --hard HEAD && git apply --index --whitespace=fix P.diff && rm -f P.diff
 	tree = log --graph --decorate --pretty=oneline --abbrev-commit
 	amend = commit --amend --no-edit
 	fixup = commit --fixup
