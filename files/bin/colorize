@@ -40,6 +40,7 @@ for f; do
 			*.sh) l=sh ;;
 			*.ini) l=ini ;;
 			*.c|*.h|*.cc|*.hh) l=c ;;
+			*.go) l=go ;;
 			*) l=text ;;
 			esac
 			;;
