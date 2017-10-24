@@ -1,5 +1,5 @@
 #!/bin/sh
 
-while ! ${SSH:-ssh} -o ConnectTimeout=1 "$@"; do
+while ! ${SSH:-ssh} -o ConnectTimeout=1 -o ServerAliveInterval=5 "$@"; do
 	sleep 1;
 done
