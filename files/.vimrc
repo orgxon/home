@@ -4,11 +4,15 @@ colorscheme koehler
 "set guifont=DejaVu\ Sans\ Mono\ 7
 set guifont=Terminus\ 8
 
+set showbreak=↪
+set listchars=tab:→·,eol:↲,nbsp:␣,trail:·,extends:⟩,precedes:⟨
+
 filetype indent on
 syntax on
 
 set nu!
 set hlsearch
+set list
 
 if has("autocmd")
 	" OpenSDE
