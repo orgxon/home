@@ -1,0 +1,25 @@
+#!/bin/sh
+
+if [ $# -eq 0 ]; then
+	set -- "$HOME/projects"
+fi
+
+find_delete_me() {
+	local depth="$1" x=
+	shift
+
+	for x; do
+		if [ ! -e "$x" ]; then
+			:
+		elif [ "${x##*/}" = "delete-me" ]; then
+			echo "$x"
+		elif [ $depth -gt 0 ]; then
+			find_delete_me $(( depth - 1 )) "$x"/*
+		fi
+	done
+}
+
+find_delete_me 4 "$@" | while read x; do
+echo "# $x"
+rm -rf "$x"
+done
