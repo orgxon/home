@@ -69,7 +69,7 @@ case "$TERM" in
 	nxterm)
 		export TERM=xterm
 		;;
-	screen-256color|screen|xterm|rxvt|linux)
+	screen-256color|xterm-256color|screen|xterm|rxvt|linux)
 		;;
 	*)
 		echo "$TERM: Unknown TERM value."
