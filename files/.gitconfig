@@ -24,6 +24,8 @@
 	autosquash = rebase -i --autosquash
 	please = push --force-with-lease
 
+	root = rev-parse --show-toplevel
+
 [push]
 	default = tracking
 [diff]
