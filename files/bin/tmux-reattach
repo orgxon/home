@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if ! which tmux > /dev/null; then
+       exec screen -dRU
+elif tmux list-sessions 2> /dev/null >&2; then
+       exec tmux attach
+else
+       exec tmux new
+fi
