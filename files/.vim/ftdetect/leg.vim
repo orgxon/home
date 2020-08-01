@@ -1,1 +1,1 @@
-au BufRead,BufNewFile *.leg set ft=leg
+../../../3rd-party/leg.vim/ftdetect/leg.vim

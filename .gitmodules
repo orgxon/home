@@ -1,3 +1,6 @@
 [submodule "3rd-party/cocci-syntax"]
 	path = 3rd-party/cocci-syntax
 	url = https://github.com/ahf/cocci-syntax
+[submodule "3rd-party/leg.vim"]
+	path = 3rd-party/leg.vim
+	url = https://github.com/Qix-/leg.vim
