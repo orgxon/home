@@ -1,0 +1,3 @@
+[submodule "3rd-party/cocci-syntax"]
+	path = 3rd-party/cocci-syntax
+	url = https://github.com/ahf/cocci-syntax
