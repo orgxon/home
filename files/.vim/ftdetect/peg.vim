@@ -1,1 +1,1 @@
-au BufRead,BufNewFile *.peg set ft=peg
+../../../3rd-party/peg.vim/ftdetect/peg.vim

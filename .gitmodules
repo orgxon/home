@@ -4,3 +4,6 @@
 [submodule "3rd-party/leg.vim"]
 	path = 3rd-party/leg.vim
 	url = https://github.com/Qix-/leg.vim
+[submodule "3rd-party/peg.vim"]
+	path = 3rd-party/peg.vim
+	url = https://github.com/gf3/peg.vim
