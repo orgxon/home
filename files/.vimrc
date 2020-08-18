@@ -1,4 +1,5 @@
 set nocompatible
+set encoding=utf-8
 
 colorscheme koehler
 "set guifont=DejaVu\ Sans\ Mono\ 7
