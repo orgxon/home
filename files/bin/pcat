@@ -21,7 +21,7 @@ if [ -n "$(sed 2>&1 | grep -- -u,)" ]; then
 else
 	SED="${STDBUF:+$STDBUF }sed"
 fi
-GREP="${STDBUF:+$STDBUF }sed"
+GREP="${STDBUF:+$STDBUF }grep"
 
 # Colours
 #
