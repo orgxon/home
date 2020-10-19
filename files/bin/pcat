@@ -1,0 +1,166 @@
+#!/bin/sh
+
+set -eu
+
+# variables
+#
+FROM=
+UNTIL=
+
+SED_ARGS=
+GREP_ARGS=
+
+# bin helpers
+#
+if STDBUF=$(which stdbuf); then
+	STDBUF="$STDBUF -i0 -o0"
+fi
+
+if [ -n "$(sed 2>&1 | grep -- -u,)" ]; then
+	SED="sed -u"
+else
+	SED="${STDBUF:+$STDBUF }sed"
+fi
+GREP="${STDBUF:+$STDBUF }sed"
+
+# Colours
+#
+NORMAL="$(printf '\x1b[39;49m')"
+COLOUR="$NORMAL"
+
+RED="$(printf '\x1b[31m')"
+GREEN="$(printf '\x1b[32m')"
+YELLOW="$(printf '\x1b[33m')"
+BLUE="$(printf '\x1b[34m')"
+MAGENTA="$(printf '\x1b[35m')"
+CYAN="$(printf '\x1b[36m')"
+
+# shell helpers
+#
+die() {
+	local arg0="$(basename "$0")"
+
+	if [ $# -eq 0 ]; then
+		sed -e "s!^!$arg0 :"
+	else
+		echo "$arg0: $@"
+	fi >&2
+	exit 1
+}
+
+# arguments
+#
+while [ $# -gt 0 ]; do
+
+	case "${1:-}" in
+	-f)
+		# prefilter from
+		FROM="$2"
+		shift
+		;;
+	-u)
+		# prefilter until
+		UNTIL="$2"
+		shift
+		;;
+
+	-e)
+		# highlight pattern
+		#
+		if [ "$COLOUR" = "$RED" ]; then
+			COLOUR="$GREEN"
+		elif [ "$COLOUR" = "$GREEN" ]; then
+			COLOUR="$MAGENTA"
+		elif [ "$COLOUR" = "$MAGENTA" ]; then
+			COLOUR="$YELLOW"
+		elif [ "$COLOUR" = "$YELLOW" ]; then
+			COLOUR="$CYAN"
+		elif [ "$COLOUR" = "$CYAN" ]; then
+			COLOUR="$BLUE"
+		else
+			COLOUR="$RED"
+		fi
+
+		case "$2" in
+		"^"*"$") PATTERN="$2" ;;
+		"^"*)    PATTERN="$2.*" ;;
+		*"$")    PATTERN=".*$2" ;;
+		*)       PATTERN=".*$2.*"
+		esac
+
+		SED_ARGS="${SED_ARGS:+$SED_ARGS }-e 's!$PATTERN!$COLOUR\0$NORMAL!g'"
+		shift
+		;;
+
+	# grep -i
+	-i)
+		GREP_ARGS="${GREP_ARGS:+$GREP_ARGS }$1"
+		;;
+	# simple grep options with arguments
+	-C|-A|-B)
+		GREP_ARGS="${GREP_ARGS:+$GREP_ARGS }$1 $2"
+		shift
+		;;
+	# grep options with merged arguments
+	-C*|-A*|-B*)
+		GREP_ARGS="${GREP_ARGS:+$GREP_ARGS }'$1'"
+		;;
+	# complex grep options with arguments
+	-E)
+		GREP_ARGS="${GREP_ARGS:+$GREP_ARGS }$1 '$2'"
+		shift
+		;;
+	# -g is `grep -e`
+	-g)
+		GREP_ARGS="${GREP_ARGS:+$GREP_ARGS }-e '$2'"
+		shift
+		;;
+
+	# simple grep options without arguments
+	-v)
+		GREP_ARGS="${GREP_ARGS:+$GREP_ARGS }$1"
+		;;
+
+	--)	shift
+		break
+		;;
+	# any other option
+	-*)
+		die "$1 unsupported"
+		;;
+
+	# straight arguments
+	*)
+		break
+		;;
+	esac
+	shift
+done
+
+#
+# compose pipeline
+#
+
+# CMD
+PIPELINE="$*"
+
+# FROM/UNTIL FILTER
+if [ -n "${FROM:-}${UNTIL:-}" ]; then
+	PIPELINE="${PIPELINE:+$PIPELINE | }$SED"
+
+	[ -z "${FROM:-}" ]  || PIPELINE="$PIPELINE -e '0,/$FROM/d'"
+	[ -z "${UNTIL:-}" ] || PIPELINE="$PIPELINE -e '/$UNTIL/,\$d'"
+fi
+
+# GREP FILTER
+if [ -n "${GREP_ARGS:-}" ]; then
+	PIPELINE="${PIPELINE:+$PIPELINE | }$GREP -a $GREP_ARGS"
+fi
+
+# HIGHLIGHT
+if [ -n "${SED_ARGS:-}" ]; then
+	PIPELINE="${PIPELINE:+$PIPELINE | }$SED $SED_ARGS"
+fi
+
+#and run
+eval "${PIPELINE:-cat}"
