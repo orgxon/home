@@ -9,6 +9,7 @@ UNTIL=
 
 SED_ARGS=
 GREP_ARGS=
+GREPV_ARGS=
 
 # bin helpers
 #
@@ -97,10 +98,6 @@ while [ $# -gt 0 ]; do
 		shift
 		;;
 
-	# grep -i
-	-i)
-		GREP_ARGS="${GREP_ARGS:+$GREP_ARGS }$1"
-		;;
 	# simple grep options with arguments
 	-C|-A|-B)
 		GREP_ARGS="${GREP_ARGS:+$GREP_ARGS }$1 $2"
@@ -120,9 +117,13 @@ while [ $# -gt 0 ]; do
 		GREP_ARGS="${GREP_ARGS:+$GREP_ARGS }-e '$2'"
 		shift
 		;;
-
-	# simple grep options without arguments
+	# -v is `grep -v e`
 	-v)
+		GREPV_ARGS="${GREPV_ARGS:+$GREPV_ARGS }-e '$2'"
+		shift
+		;;
+	# simple grep options without arguments
+	-i)
 		GREP_ARGS="${GREP_ARGS:+$GREP_ARGS }$1"
 		;;
 
@@ -147,6 +148,11 @@ done
 #
 
 PIPELINE=
+
+# GREP -v FILTER
+if [ -n "${GREPV_ARGS:-}" ]; then
+	PIPELINE="${PIPELINE:+$PIPELINE | }$GREP -a -v $GREPV_ARGS"
+fi
 
 # FROM/UNTIL FILTER
 if [ -n "${FROM:-}${UNTIL:-}" ]; then
