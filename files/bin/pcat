@@ -149,6 +149,12 @@ if [ -n "${FROM:-}${UNTIL:-}" ]; then
 
 	[ -z "${FROM:-}" ]  || PIPELINE="$PIPELINE -e '0,/$FROM/d'"
 	[ -z "${UNTIL:-}" ] || PIPELINE="$PIPELINE -e '/$UNTIL/,\$d'"
+
+	# no grep? combine both sed calls
+	if [ -z "${GREP_ARGS:-}" -a -n "${SED_ARGS:-}" ]; then
+		PIPELINE="$PIPELINE $SED_ARGS"
+		SED_ARGS=
+	fi
 fi
 
 # GREP FILTER
