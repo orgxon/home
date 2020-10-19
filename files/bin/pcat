@@ -17,6 +17,7 @@ if STDBUF=$(which stdbuf); then
 	STDBUF="$STDBUF -i0 -o0"
 fi
 
+PERL=$(which perl || true)
 if [ -n "$(sed 2>&1 | grep -- -u,)" ]; then
 	SED="sed -u"
 else
@@ -143,6 +144,8 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
+export LC_ALL=C
+
 #
 # compose pipeline
 #
@@ -155,7 +158,21 @@ if [ -n "${GREPV_ARGS:-}" ]; then
 fi
 
 # FROM/UNTIL FILTER
-if [ -n "${FROM:-}${UNTIL:-}" ]; then
+if [ -z "${FROM:-}${UNTIL:-}" ]; then
+	:
+elif [ -x "$PERL" ]; then
+	prg=
+
+	if [ -n "$FROM" ]; then
+		prg="print if \$print; \$print ||= /$FROM/;"
+	else
+		prg="print;"
+	fi
+
+	[ -z "$UNTIL" ] || prg="last if /$UNTIL/; $prg"
+
+	PIPELINE="${PIPELINE:+$PIPELINE | }$PERL -lne '$prg'"
+else
 	PIPELINE="${PIPELINE:+$PIPELINE | }$SED"
 
 	[ -z "${FROM:-}" ]  || PIPELINE="$PIPELINE -e '0,/$FROM/d'"
