@@ -141,8 +141,7 @@ done
 # compose pipeline
 #
 
-# CMD
-PIPELINE="$*"
+PIPELINE=
 
 # FROM/UNTIL FILTER
 if [ -n "${FROM:-}${UNTIL:-}" ]; then
@@ -163,4 +162,10 @@ if [ -n "${SED_ARGS:-}" ]; then
 fi
 
 #and run
-eval "${PIPELINE:-cat}"
+if [ $# -eq 0 ]; then
+	eval "${PIPELINE:-cat}"
+elif [ -n "$PIPELINE" ]; then
+	"$@" | $PIPELINE
+else
+	"$@"
+fi
