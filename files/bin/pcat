@@ -48,6 +48,11 @@ die() {
 	exit 1
 }
 
+cat <<EOT >&2
+# $PWD
+# $0 $*
+EOT
+
 # arguments
 #
 while [ $# -gt 0 ]; do
