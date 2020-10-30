@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -ux
+
 cd "$(dirname "$0")"
 
 branch="$(git branch | sed -n 's/^* \(.*\)$/\1/p;')"
@@ -25,6 +27,7 @@ else
 fi
 
 git rebase "$remote/$rbranch"
+git submodule update --init
 
 if $stashed; then
 	git stash pop -q
