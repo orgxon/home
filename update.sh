@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -ux
+set -u
 
 cd "$(dirname "$0")"
 
