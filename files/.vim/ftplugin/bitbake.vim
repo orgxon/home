@@ -1,0 +1,1 @@
+../../../3rd-party/vim-bitbake/ftplugin/bitbake.vim

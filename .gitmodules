@@ -7,3 +7,6 @@
 [submodule "3rd-party/peg.vim"]
 	path = 3rd-party/peg.vim
 	url = https://github.com/gf3/peg.vim
+[submodule "3rd-party/vim-bitbake"]
+	path = 3rd-party/vim-bitbake
+	url = https://github.com/kergoth/vim-bitbake
