@@ -2,9 +2,7 @@
 
 set -e
 cd "$(dirname "$0")"
-DIR="$PWD"
 
-cd "files"
-find ! -type d -exec "$DIR/sync2.sh" '{}' \;
+find -H files -print0 | xargs -r0 "$PWD/sync2.sh" -d "files"
 
-exec "$DIR/sync_ssh.sh"
+exec "$PWD/sync_ssh.sh"

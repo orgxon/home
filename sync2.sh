@@ -5,12 +5,23 @@ err() { echo "E: $$: $*" >&2; }
 
 set -u
 
-FILES="$(pwd -P)"
+if [ "x-d" = "x${1:-}" ]; then
+	BASE="$2"
+	shift 2
+else
+	BASE=.
+fi
+
+FILES="$(readlink -f "$BASE")"
 for x; do
 
 	# clean
 	#
-	x="${x#./}"
+	case "$x" in
+	"$BASE")   continue ;;
+	"$BASE"/*) x="${x#$BASE/}" ;;
+	./*)       x="${x#./}" ;;
+	esac
 
 	# find target (d1)
 	#
