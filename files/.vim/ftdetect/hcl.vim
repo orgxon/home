@@ -1,0 +1,1 @@
+../../../3rd-party/vim-hcl/ftdetect/hcl.vim

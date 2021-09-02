@@ -13,3 +13,6 @@
 [submodule "3rd-party/vim-flatbuffers"]
 	path = 3rd-party/vim-flatbuffers
 	url = https://github.com/dcharbon/vim-flatbuffers
+[submodule "3rd-party/vim-hcl"]
+	path = 3rd-party/vim-hcl
+	url = https://github.com/jvirtanen/vim-hcl
