@@ -10,3 +10,6 @@
 [submodule "3rd-party/vim-bitbake"]
 	path = 3rd-party/vim-bitbake
 	url = https://github.com/kergoth/vim-bitbake
+[submodule "3rd-party/vim-flatbuffers"]
+	path = 3rd-party/vim-flatbuffers
+	url = https://github.com/dcharbon/vim-flatbuffers

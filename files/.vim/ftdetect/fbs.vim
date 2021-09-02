@@ -1,0 +1,1 @@
+../../../3rd-party/vim-flatbuffers/ftdetect/fbs.vim
