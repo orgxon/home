@@ -16,3 +16,6 @@
 [submodule "3rd-party/vim-hcl"]
 	path = 3rd-party/vim-hcl
 	url = https://github.com/jvirtanen/vim-hcl
+[submodule "3rd-party/editorconfig-vim"]
+	path = 3rd-party/editorconfig-vim
+	url = https://github.com/editorconfig/editorconfig-vim.git
