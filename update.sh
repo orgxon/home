@@ -34,3 +34,4 @@ if $stashed; then
 fi
 
 [ $# -eq 0 ] || exec "$@"
+# a test
